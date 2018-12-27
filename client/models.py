@@ -2,8 +2,6 @@ from django.db import models
 
 class token(models.Model):
     token = models.CharField(max_length=50)
-    # def __str__(self):
-    #     return "{} - token ".format(str(self.user))
     def __str__(self):
         return str(self.token)
 
@@ -26,7 +24,7 @@ class user(models.Model):
     push_id = models.CharField(max_length=20,blank=True)
     account_balance = models.DecimalField(max_digits=10 , blank=True,null =True,decimal_places=2)
     profile_photo = models.ImageField(upload_to='profile_photos_client/',blank=True , null =True)
-    id_card_photo = models.ImageField(upload_to='id_card_photos_client/',blank=True , null =True)
+    # id_card_photo = models.ImageField(upload_to='id_card_photos_client/',blank=True , null =True)
     id_number = models.CharField(max_length=11,blank=True)
     
     def __str__(self):
@@ -45,7 +43,7 @@ class bannerSlider(models.Model):
     webURL = models.CharField(max_length=1000
                               ,blank=True)
                                                         
-    image = models.ImageField(upload_to='slider_images/ar/',blank=True)
+    image = models.ImageField(upload_to='slider_images/en/',blank=True)
     image_arabic = models.ImageField(upload_to='slider_images/ar/',blank=True)
 
     def __str__(self):
@@ -115,7 +113,7 @@ class warninig(models.Model):
 class availableService(models.Model):
     service = models.ForeignKey(service,on_delete=models.CASCADE,
                                                     help_text = 'associeted service ')
-    description = models.CharField(max_length=30, help_text = 'توضیحات درباره ی سرویس مورد نظر. این قیلد در قسمت ثبت سفارش و خدمات قابل اراعه نمایش داده میشو')
+    description = models.CharField(max_length=30, help_text = 'description for associeted service')
 
 class serviceList(models.Model):
     title = models.CharField(max_length=40)
@@ -127,8 +125,8 @@ class serviceList(models.Model):
 class order(models.Model):
     MALE = 'M'
     FEMALE = 'F'
-    COMPANY = 'c'
-    GENDER_CHOICES = ((MALE,'Male'),(FEMALE,'Female'),(COMPANY,'c'))
+    COMPANY = 'C'
+    GENDER_CHOICES = ((MALE,'Male'),(FEMALE,'Female'),(COMPANY,'Company'))
     COMPLETED = 'CM'
     UNCERTAIN = 'UN'
     SUSPENDED = 'SUS'
