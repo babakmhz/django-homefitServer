@@ -1,12 +1,15 @@
 db.sqlite3
+notes.txt
 serviceProvider/migrations/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
-
+mysqlConfig.cnf
+.vscode/
 # C extensions
 *.so
+notes.md
 client/migrations/
 # Distribution / packaging
 .Python
