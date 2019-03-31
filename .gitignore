@@ -8,6 +8,8 @@ __pycache__/
 mysqlConfig.cnf
 .vscode/
 # C extensions
+./provider/migrations/
+media/
 *.so
 notes.md
 client/migrations/
