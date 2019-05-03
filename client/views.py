@@ -19,6 +19,7 @@ from client.serializers import (bannerSliderSerializer,
                                 IdCardPhotoSerializer,
                                 getUserSerializer,
                                 serviceTipSerializer,
+
                                 )
 
 from django.http import JsonResponse
@@ -126,3 +127,4 @@ class getServiceTip(generics.ListAPIView):
             return service_tip.objects.filter(service__id=this_service)
         except:
             raise exceptions.APIException('bad request')
+

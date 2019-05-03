@@ -218,3 +218,23 @@ class comments(models.Model):
 class address(models.Model):
     address = models.TextField(max_length=10000)
     owner = models.ForeignKey(user, on_delete=models.CASCADE)
+
+
+class serviceDate(models.Model):
+    date = models.DateField()
+
+    def __str__(self):
+        return '{}'.format(self.date)
+
+
+class serviceTime(models.Model):
+    time = models.TimeField()
+
+    def __str__(self):
+        return '{}'.format(self.time)
+
+
+class availableDateTimeService(models.Model):
+    service = models.ForeignKey(serviceCategory, on_delete=models.CASCADE)
+    time = models.ForeignKey(serviceTime, on_delete=models.CASCADE)
+    date = models.ForeignKey(serviceDate,on_delete = models.CASCADE)
