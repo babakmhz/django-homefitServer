@@ -11,7 +11,10 @@ from client.models import (bannerSlider,
                            serviceList,
                            service_tip,
                            service_tip_text,
-                           ordered_service,)
+                           ordered_service,
+                           availableDateTimeService,
+                           serviceDate,
+                           serviceTime)
 
 
 class bannerSliderSerializer(serializers.ModelSerializer):
@@ -63,6 +66,29 @@ class userSerializer(serializers.ModelSerializer):
                   'last_name',
                   'id_number',
                   'id_card_photo')
+
+
+class serviceTimesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = serviceTime
+        fields = ('_time')
+
+
+class serviceDateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = serviceDate
+        fields = ('_date')
+
+
+class availableServiceDateTimeSerializer(serializers.ModelSerializer):
+    service = subServiceCategoriesSerializer(many=False)
+    time = serviceTimesSerializer(many=True)
+    date = serviceDateSerializer(many=True)
+    
+
+    class Meta:
+        model = availableDateTimeService
+        fields = '__all__'
 
 
 class getUserSerializer(serializers.ModelSerializer):

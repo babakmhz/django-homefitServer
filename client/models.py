@@ -221,20 +221,21 @@ class address(models.Model):
 
 
 class serviceDate(models.Model):
-    date = models.DateField()
+    _date = models.DateField()
 
     def __str__(self):
-        return '{}'.format(self.date)
+        return '{}'.format(self._date)
 
 
 class serviceTime(models.Model):
-    time = models.TimeField()
+    _time = models.TimeField()
 
     def __str__(self):
-        return '{}'.format(self.time)
+        return '{}'.format(self._time)
 
 
 class availableDateTimeService(models.Model):
     service = models.ForeignKey(serviceCategory, on_delete=models.CASCADE)
     time = models.ForeignKey(serviceTime, on_delete=models.CASCADE)
-    date = models.ForeignKey(serviceDate,on_delete = models.CASCADE)
+    date = models.ForeignKey(serviceDate, on_delete=models.CASCADE)
+    
