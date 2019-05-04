@@ -238,4 +238,3 @@ class availableDateTimeService(models.Model):
     service = models.ForeignKey(serviceCategory, on_delete=models.CASCADE)
     time = models.ForeignKey(serviceTime, on_delete=models.CASCADE)
     date = models.ForeignKey(serviceDate, on_delete=models.CASCADE)
-    

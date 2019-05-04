@@ -19,7 +19,7 @@ from django.conf.urls import url
 from django.conf import settings
 
 urlpatterns = [
-    url(r'^register/$', views.register_or_get_token,name = 'register'),
+    url(r'^register/$', views.register_or_get_token, name='register'),
     url(r'^sliders/$', views.getSliders.as_view()),
     url(r'^serviceCategories/$', views.getServices.as_view()),
     url(r'^services/$', views.getServicesDetail.as_view()),
@@ -29,10 +29,13 @@ urlpatterns = [
     url(r'^serviceTip/$', views.getServiceTip.as_view()),
 
     # TODO: encrypt media directory
-    ## TODO: change update profile process ----> get token in POST body or HEADER
-    url(r'^updateClientProfile/(?P<token__token>[0-9A-Za-z]+)/$', views.updateClientProfile.as_view()),
-    url(r'^uploadClientProfilePhoto/(?P<token__token>[0-9A-Za-z]+)/$', views.uploadClientProfilePhoto.as_view()),
-    url(r'^uploadClientIdCardPhoto/(?P<token__token>[0-9A-Za-z]+)/$', views.uploadClientIdCardPhoto.as_view()),
-
+    # TODO: change update profile process ----> get token in POST body or HEADER
+    url(r'^updateClientProfile/(?P<token__token>[0-9A-Za-z]+)/$',
+        views.updateClientProfile.as_view()),
+    url(r'^uploadClientProfilePhoto/(?P<token__token>[0-9A-Za-z]+)/$',
+        views.uploadClientProfilePhoto.as_view()),
+    url(r'^uploadClientIdCardPhoto/(?P<token__token>[0-9A-Za-z]+)/$',
+        views.uploadClientIdCardPhoto.as_view()),
+    url(r'^availableServiceDate/$', views.getAvailableServiceDates.as_view()),
     #url('^profile/(?P<token>.+)/$', views.getClientProfile.as_view()),
 ]

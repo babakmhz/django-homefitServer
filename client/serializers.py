@@ -71,24 +71,24 @@ class userSerializer(serializers.ModelSerializer):
 class serviceTimesSerializer(serializers.ModelSerializer):
     class Meta:
         model = serviceTime
-        fields = ('_time')
+        fields = ('_time',)
 
 
 class serviceDateSerializer(serializers.ModelSerializer):
     class Meta:
         model = serviceDate
-        fields = ('_date')
+        fields = ('_date',)
 
 
 class availableServiceDateTimeSerializer(serializers.ModelSerializer):
-    service = subServiceCategoriesSerializer(many=False)
-    time = serviceTimesSerializer(many=True)
-    date = serviceDateSerializer(many=True)
-    
+    # service = serviceCategoriesSerializer(many=False)
+    time = serviceTimesSerializer(many=False)
+    date = serviceDateSerializer(many=False)
+
 
     class Meta:
         model = availableDateTimeService
-        fields = '__all__'
+        fields = ('date','time',)
 
 
 class getUserSerializer(serializers.ModelSerializer):
