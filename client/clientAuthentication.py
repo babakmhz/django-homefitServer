@@ -7,7 +7,8 @@ from provider.models import provider
 
 class basicAuth(authentication.BaseAuthentication):
     def authenticate(self, request):
-        this_token = request.META.get('HTTP_AUTH')
+        print(request.META)
+        this_token = request.META.get('HTTP_AUTHORIZATION')
         if this_token == None:
             raise exceptions.AuthenticationFailed('No credentials provided')
         try:
