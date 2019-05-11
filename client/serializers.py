@@ -30,7 +30,6 @@ class subServiceCategoriesSerializer(serializers.ModelSerializer):
         model = subServiceCategory
         fields = '__all__'
 
-
 class profilePhotoSerializer(serializers.ModelSerializer):
     class Meta:
         model = user
