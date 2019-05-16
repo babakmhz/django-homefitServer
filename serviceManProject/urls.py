@@ -22,7 +22,7 @@ from client import urls
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^api/client/v1/', include('client.urls')),
-    url(r'^api/provider/v1', include('provider.urls'))
+    url(r'^api/provider/v1/', include('provider.urls'))
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

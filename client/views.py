@@ -5,20 +5,9 @@ from client.clientAuthentication import basicAuth
 from client.models import (bannerSlider,
                            serviceCategory,
                            token,
-                           user,
-                           order,
-                           service,
-                           service_tip,
                            availableDateTimeService,)
 from client.serializers import (bannerSliderSerializer,
-                                serviceCategoriesSerializer, userSerializer,
-                                updateUserSerializer,
-                                submitOrderSerializer,
-                                servicesSerializer,
-                                profilePhotoSerializer,
-                                IdCardPhotoSerializer,
-                                getUserSerializer,
-                                serviceTipSerializer,
+                                serviceCategoriesSerializer, 
                                 availableServiceDateTimeSerializer,
                                 )
 
@@ -70,73 +59,73 @@ class getSliders(generics.ListAPIView):
     authentication_classes = (basicAuth,)
 
 
-class getClientProfile(generics.ListAPIView):
-    serializer_class = getUserSerializer
-    authentication_classes = (basicAuth,)
+# class getClientProfile(generics.ListAPIView):
+#     serializer_class = getUserSerializer
+#     authentication_classes = (basicAuth,)
 
-    def get_queryset(self):
-        this_token = self.request.GET['token']
-        print(this_token)
-        return user.objects.filter(token__token='{}'.format(this_token))
-
-
-class updateClientProfile(generics.UpdateAPIView):
-    serializer_class = updateUserSerializer
-    # TODO: create permission that only this user can change information
-    queryset = user.objects.all()
-    authentication_classes = (basicAuth,)
-    lookup_field = 'token__token'
+#     def get_queryset(self):
+#         this_token = self.request.GET['token']
+#         print(this_token)
+#         return user.objects.filter(token__token='{}'.format(this_token))
 
 
-class submitOrder(generics.CreateAPIView):
-    serializer_class = submitOrderSerializer
-    authentication_classes = (basicAuth,)
-    queryset = order.objects.all()
+# class updateClientProfile(generics.UpdateAPIView):
+#     serializer_class = updateUserSerializer
+#     # TODO: create permission that only this user can change information
+#     queryset = user.objects.all()
+#     authentication_classes = (basicAuth,)
+#     lookup_field = 'token__token'
 
 
-class getServicesDetail(generics.ListAPIView):
-    serializer_class = servicesSerializer
-    authentication_classes = (basicAuth,)
-
-    def get_queryset(self):
-        # print(self.request.GET['category'])
-        try:
-            this_category = self.request.GET['category']
-            return service.objects.filter(category__id=this_category)
-        except:
-            raise exceptions.APIException('bad request')
+# class submitOrder(generics.CreateAPIView):
+#     serializer_class = submitOrderSerializer
+#     authentication_classes = (basicAuth,)
+#     queryset = order.objects.all()
 
 
-class uploadClientProfilePhoto(generics.RetrieveUpdateAPIView):
-    authentication_classes = (basicAuth,)
-    serializer_class = profilePhotoSerializer
-    queryset = user.objects.all()
-    lookup_field = 'token__token'
+# class getServicesDetail(generics.ListAPIView):
+#     serializer_class = servicesSerializer
+#     authentication_classes = (basicAuth,)
+
+#     def get_queryset(self):
+#         # print(self.request.GET['category'])
+#         try:
+#             this_category = self.request.GET['category']
+#             return service.objects.filter(category__id=this_category)
+#         except:
+#             raise exceptions.APIException('bad request')
 
 
-class uploadClientIdCardPhoto(generics.RetrieveUpdateAPIView):
-    authentication_classes = (basicAuth,)
-    serializer_class = IdCardPhotoSerializer
-    queryset = user.objects.all()
-    lookup_field = 'token__token'
+# class uploadClientProfilePhoto(generics.RetrieveUpdateAPIView):
+#     authentication_classes = (basicAuth,)
+#     serializer_class = profilePhotoSerializer
+#     queryset = user.objects.all()
+#     lookup_field = 'token__token'
 
 
-class getServicesDetailAll(generics.ListAPIView):
-    serializer_class = servicesSerializer
-    authentication_classes = (basicAuth,)
-    queryset = service.objects.all()
+# class uploadClientIdCardPhoto(generics.RetrieveUpdateAPIView):
+#     authentication_classes = (basicAuth,)
+#     serializer_class = IdCardPhotoSerializer
+#     queryset = user.objects.all()
+#     lookup_field = 'token__token'
 
 
-class getServiceTip(generics.ListAPIView):
-    serializer_class = serviceTipSerializer
-    authentication_classes = (basicAuth,)
+# class getServicesDetailAll(generics.ListAPIView):
+#     serializer_class = servicesSerializer
+#     authentication_classes = (basicAuth,)
+#     queryset = service.objects.all()
 
-    def get_queryset(self):
-        try:
-            this_service = self.request.GET['id']
-            return service_tip.objects.filter(service__id=this_service)
-        except:
-            raise exceptions.APIException('bad request')
+
+# class getServiceTip(generics.ListAPIView):
+#     serializer_class = serviceTipSerializer
+#     authentication_classes = (basicAuth,)
+
+#     def get_queryset(self):
+#         try:
+#             this_service = self.request.GET['id']
+#             return service_tip.objects.filter(service__id=this_service)
+#         except:
+#             raise exceptions.APIException('bad request')
 
 
 class getAvailableServiceDates(generics.ListAPIView):
