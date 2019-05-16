@@ -33,7 +33,14 @@ class provider(models.Model):
         'client.serviceCategory', models.CASCADE,related_name='category')
     providing_services = models.ManyToManyField(
         'client.subServiceCategory')
-
+    def __str__(self):
+        return self.name
+class services(models.Model):
+    name = models.ForeignKey('client.subServiceCategory', models.CASCADE)
+    price = models.DecimalField(decimal_places=3, max_digits=10)
+    provider = models.ForeignKey(provider, models.CASCADE)
+    def __str__(self):
+        return '{}'.format(self.name)
     # def __str__(self):
         # return self.providing_services
 # class providerComments(models.Model):

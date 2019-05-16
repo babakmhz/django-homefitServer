@@ -80,10 +80,8 @@ class subServiceCategory(models.Model):
         serviceCategory, models.CASCADE, related_name='service')
     title = models.CharField(max_length=30)
     title_arabic = models.CharField(max_length=30)
-    price = models.DecimalField(decimal_places=3, max_digits=10)
     image = models.ImageField(
         verbose_name='item_image', upload_to='subCategoryService_images/en/', blank=True)
-
     # image_arabic = models.ImageField(verbose_name='item_image_arabic',upload_to='subCategoryService_images/ar/',blank=True)
 
     def __str__(self):
