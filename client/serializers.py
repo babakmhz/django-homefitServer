@@ -8,6 +8,8 @@ from client.models import (bannerSlider,
                            serviceDate,
                            serviceTime)
 
+from provider.models import provider, availableDates
+
 
 class bannerSliderSerializer(serializers.ModelSerializer):
 
@@ -22,19 +24,6 @@ class subServiceCategoriesSerializer(serializers.ModelSerializer):
         model = subServiceCategory
         fields = '__all__'
 
-# class profilePhotoSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = user
-#         fields = ('profile_photo',)
-#         # TODO: remove privious uploaded pics
-
-
-# class IdCardPhotoSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = user
-#         fields = ('id_card_photo',)
-#         # TODO: remove privious uploaded pics
-
 
 class serviceCategoriesSerializer(serializers.ModelSerializer):
     service = subServiceCategoriesSerializer(many=True)
@@ -48,100 +37,6 @@ class serviceCategoriesSerializer(serializers.ModelSerializer):
                   'image',
                   'image_selected',
                   'service')
-
-
-# class userSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = user
-#         fields = ('first_name',
-#                   'last_name',
-#                   'id_number',
-#                   'id_card_photo')
-
-
-class serviceTimesSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = serviceTime
-        fields = ('_time',)
-
-
-class serviceDateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = serviceDate
-        fields = ('_date',)
-
-
-class availableServiceDateTimeSerializer(serializers.ModelSerializer):
-    # service = serviceCategoriesSerializer(many=False)
-    time = serviceTimesSerializer(many=False)
-    date = serviceDateSerializer(many=False)
-    class Meta:
-        model = availableDateTimeService
-        fields = ('date','time',)
-
-
-# class getUserSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = user
-#         fields = ('id', 'phone_number',
-#                   'first_name',
-#                   'last_name',
-#                   'gender',
-#                   'profile_status',
-#                   'push_id',
-#                   'account_balance',
-#                   'profile_photo',
-#                   'id_number')
-
-
-# class updateUserSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = user
-#         fields = ('first_name',
-#                   'last_name',
-#                   'gender',
-#                   'id_number',)
-
-
-# class orderTagsSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = orderTag
-#         fields = '__all__'
-
-
-# class serviceListSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = serviceList
-#         fields = '__all__'
-
-
-# class servicesSerializer(serializers.ModelSerializer):
-#     services = serviceListSerializer(many=True)
-
-#     class Meta:
-#         model = service
-#         fields = ('id',
-#                   'title_preview',
-#                   'title',
-#                   'minimum_cost',
-#                   'image',
-#                   'category',
-#                   'description',
-#                   'services')
-
-
-# class tipSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = service_tip_text
-#         fields = '__all__'
-
-
-# class serviceTipSerializer(serializers.ModelSerializer):
-#     tip = tipSerializer(many=False)
-
-#     class Meta:
-#         model = service_tip
-#         fields = ('id', 'tip')
 
 
 # class submitOrderSerializer(serializers.ModelSerializer):

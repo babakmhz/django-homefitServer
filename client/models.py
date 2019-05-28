@@ -88,74 +88,6 @@ class subServiceCategory(models.Model):
         return self.title
 
 
-# class service(models.Model):
-#     title_preview = models.CharField(max_length=30)
-#     title_preview_arabic = models.CharField(max_length=30)
-#     title = models.CharField(max_length=30)
-#     title_arabic = models.CharField(max_length=30)
-#     description = models.TextField(max_length=2500, blank=True)
-#     description_arabic = models.TextField(max_length=2500, blank=True)
-#     image = models.ImageField(verbose_name='item_image', upload_to='service_images/en/',
-#                               help_text='this is the image for service to be viewed on order page', blank=True)
-#     image_arabic = models.ImageField(verbose_name='item_image_arabic', upload_to='service_images/ar/',
-#                                      help_text='this is the image for service to be viewed on order page', blank=True)
-#     minimum_cost = models.DecimalField(
-#         max_digits=10, blank=True, null=True, decimal_places=2)
-#     category = models.ForeignKey(subServiceCategory, on_delete=models.CASCADE)
-
-#     def __str__(self):
-#         return self.title_preview
-
-
-# class service_tip_text(models.Model):
-#     tip = models.TextField(max_length=200, blank=True)
-#     tip_arabic = models.TextField(max_length=200, blank=True)
-
-#     def __str__(self):
-#         return '{}'.format(self.tip)
-
-
-# class service_tip(models.Model):
-#     service = models.ForeignKey(service, on_delete=models.CASCADE)
-#     tip = models.ForeignKey(service_tip_text, on_delete=models.CASCADE)
-
-#     def __str__(self):
-#         return '{},{}'.format(self.service, self.tip)
-
-
-# class warninig_text(models.Model):
-#     text = models.TextField(max_length=300,
-#                             help_text='this is warning text for specific service, enter just single warning')
-
-#     def __str__(self):
-#         return '{}'.format(self.text)
-
-
-# class warninig(models.Model):
-#     service = models.ForeignKey(
-#         service, on_delete=models.CASCADE, help_text='associated service for this warning')
-#     warninig = models.ForeignKey(warninig_text, on_delete=models.CASCADE)
-
-#     def __str__(self):
-#         return '{} , {}'.format(self.warninig, self.service)
-
-
-# class availableService(models.Model):
-#     service = models.ForeignKey(service, on_delete=models.CASCADE,
-#                                 help_text='associeted service ')
-#     description = models.CharField(
-#         max_length=30, help_text='description for associeted service')
-
-
-# class serviceList(models.Model):
-#     title = models.CharField(max_length=40)
-#     service = models.ForeignKey(
-#         service, on_delete=models.CASCADE, related_name='services')
-#     cost = models.DecimalField(
-#         max_digits=10, blank=True, null=True, decimal_places=2)
-
-#     def __str__(self):
-#         return self.title
 
 
 # class order(models.Model):
@@ -193,26 +125,6 @@ class subServiceCategory(models.Model):
 #         return self.service
 
 
-# class orderTag(models.Model):
-#     tag_name = models.ForeignKey('provider.skillTag', on_delete=models.CASCADE)
-#     order = models.ForeignKey(order, on_delete=models.CASCADE)
-
-
-# class ordered_service(models.Model):
-#     service = models.ForeignKey(serviceList, on_delete=models.CASCADE)
-#     _order = models.ForeignKey(order, on_delete=models.CASCADE)
-
-
-# # class bidd(models.Model):
-# #     owner = models.ForeignKey('serviceProvider.provider',on_delete=models.CASCADE)
-# #     order = models.ForeignKey(order,on_delete=models.CASCADE)
-# #     bidd_content = models.TextField(max_length=300)
-
-# class comments(models.Model):
-#     owner = models.ForeignKey(user, on_delete=models.CASCADE)
-#     order = models.ForeignKey(order, on_delete=models.CASCADE)
-#     content = models.TextField(max_length=300)
-
 
 class address(models.Model):
     address = models.TextField(max_length=10000)
@@ -234,6 +146,8 @@ class serviceTime(models.Model):
 
 
 class availableDateTimeService(models.Model):
-    service = models.ForeignKey(serviceCategory, on_delete=models.CASCADE)
     time = models.ForeignKey(serviceTime, on_delete=models.CASCADE)
     date = models.ForeignKey(serviceDate, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return '{},{}'.format(self.date,self.time)

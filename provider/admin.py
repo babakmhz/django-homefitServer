@@ -1,6 +1,6 @@
 from django.contrib import admin
 # Register your models here.
-from provider.models import provider
+from provider.models import provider,availableDates
 
 # admin.site.register(personel_id)
 
@@ -20,6 +20,11 @@ class ProvidingSkills(admin.ModelAdmin):
               'providing_category', 'providing_services')
     filter_horizontal = ('providing_services',)
 
+@admin.register(availableDates)
+class providingDates(admin.ModelAdmin):
+    list_display = ('provider',)
+    fields = ('provider','dates',)
+    filter_horizontal = ('dates',)
 
 @admin.register(services)
 class servicesAdmin(admin.ModelAdmin):

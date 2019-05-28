@@ -1,4 +1,3 @@
-
 from django.contrib import admin
 from client.models import (
     serviceCategory,
@@ -9,8 +8,10 @@ from client.models import (
     serviceTime,
     availableDateTimeService)
 
+
 # Register your models here.
 from django.contrib import admin
+
 # you need import this for adding jalali calander widget
 admin.site.register(bannerSlider)
 admin.site.register(serviceCategory)
