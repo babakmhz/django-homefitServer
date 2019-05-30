@@ -10,6 +10,7 @@ __pycache__/
 *$py.class
 <<<<<<< HEAD
 mysqlConfig.cnf
+provider/migrations/*
 .vscode/
 # C extensions
 ./provider/migrations/
