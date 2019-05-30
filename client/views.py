@@ -8,8 +8,10 @@ from client.models import (bannerSlider,
                            availableDateTimeService,)
 from client.serializers import (bannerSliderSerializer,
                                 serviceCategoriesSerializer,
+
                                 )
-from provider.serializers import getProvidersSerlizer
+from provider.serializers import getProvidersSerlizer, availableProvidersDate
+
 
 from provider.models import provider, availableDates
 from django.http import JsonResponse
@@ -61,7 +63,11 @@ class getSliders(generics.ListAPIView):
 
 
 class getAvailableServiceDates(generics.ListAPIView):
-    pass
+    authentication_classes = (basicAuth,)
+    serializer_class = availableProvidersDate
+
+    def get_queryset(self):
+        return availableDates.objects.all()
 
 
 class getProviders(generics.ListAPIView):

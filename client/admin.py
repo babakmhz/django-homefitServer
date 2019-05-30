@@ -6,13 +6,12 @@ from client.models import (
     user,
     serviceDate,
     serviceTime,
-    availableDateTimeService)
+    availableDateTimeService,order)
 
 
 # Register your models here.
 from django.contrib import admin
 
-# you need import this for adding jalali calander widget
 admin.site.register(bannerSlider)
 admin.site.register(serviceCategory)
 admin.site.register(subServiceCategory)
@@ -20,5 +19,6 @@ admin.site.register(user)
 admin.site.register(serviceDate)
 admin.site.register(serviceTime)
 admin.site.register(availableDateTimeService)
+admin.site.register(order)
 # TODO: remove orderd_service from admin mode
 # TODO:  make all models read-only

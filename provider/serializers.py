@@ -1,7 +1,8 @@
 
 from rest_framework import serializers
-from provider.models import provider, services
+from provider.models import provider, services,availableDates
 from client.models import subServiceCategory as client_subC
+from client.models import serviceDate,serviceTime,availableDateTimeService
 from rest_framework import exceptions
 from client import Utils
 
@@ -31,5 +32,34 @@ class getProvidersSerlizer(serializers.ModelSerializer):
                     provider__name=provider, name__title=title).values_list('price', flat=True).get()
                 total_cost = float(total_cost)+float(cost)
                 return total_cost
-            except :
+            except:
                 return None
+
+
+class dateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = serviceDate
+        fields = '__all__'
+
+
+class timeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = serviceTime
+        fields = '__all__'
+
+
+class dateTimeSerializer(serializers.ModelSerializer):
+    date = dateSerializer(many=False)
+    time = timeSerializer(many=False)
+
+    class Meta:
+        model = availableDateTimeService
+        fields = '__all__'
+
+
+class availableProvidersDate(serializers.ModelSerializer):
+    dates = dateTimeSerializer(many=True)
+
+    class Meta:
+        model = availableDates
+        fields = ('dates',)

@@ -39,6 +39,7 @@ class serviceCategoriesSerializer(serializers.ModelSerializer):
                   'service')
 
 
+
 # class submitOrderSerializer(serializers.ModelSerializer):
 #     #orderTags = serializers.ListField(child=orderTagsSerializer())
 #     #orderTags = serializers.SerializerMethodField('get_tags')

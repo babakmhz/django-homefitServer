@@ -12,18 +12,11 @@ class user(models.Model):
     MALE = 'M'
     FEMALE = 'F'
     GENDER_CHOICES = ((MALE, 'Male'), (FEMALE, 'Female'))
-
-    # VERIFIED = 'verified'
-    # UNVERIFIED = 'unverified'
-    # INPROGRESS = 'inprogress'
-    # PROFILE_STATUS_CHOICES = ((VERIFIED,'verified'),(UNVERIFIED,'unverified'),(INPROGRESS,'InProgress'))
-
     phone_number = models.CharField(max_length=13)
     last_name = models.CharField(max_length=20, blank=True)
     first_name = models.CharField(max_length=20, blank=True)
     gender = models.CharField(
         max_length=2, choices=GENDER_CHOICES, default=MALE)
-    # profile_status = models.CharField(max_length=20,choices=PROFILE_STATUS_CHOICES,default=UNVERIFIED)
     token = models.OneToOneField(token, models.CASCADE, unique=True)
     orders_made_count = models.PositiveIntegerField(default=0)
     user_rating = models.FloatField(default=0.0)
@@ -32,17 +25,10 @@ class user(models.Model):
         max_digits=10, blank=True, null=True, decimal_places=2)
     profile_photo = models.ImageField(
         upload_to='profile_photos_client/', blank=True, null=True)
-    # id_card_photo = models.ImageField(upload_to='id_card_photos_client/',blank=True , null =True)
     id_number = models.CharField(max_length=11, blank=True)
 
     def __str__(self):
         return str(self.phone_number)
-
-
-# class clientComments(models.Model):
-#     comment = models.CharField(max_length=300, blank=True)
-#     owner = models.ForeignKey(user, on_delete=models.CASCADE)
-#     to = models.ForeignKey('provider.provider', on_delete=models.CASCADE)
 
 
 class bannerSlider(models.Model):
@@ -54,7 +40,6 @@ class bannerSlider(models.Model):
     location = models.CharField(max_length=30, blank=True)
     webURL = models.CharField(max_length=1000, blank=True)
     image = models.ImageField(upload_to='slider_images/en/', blank=True)
-
 
     # image_arabic = models.ImageField(upload_to='slider_images/ar/',blank=True)
 
@@ -82,53 +67,9 @@ class subServiceCategory(models.Model):
     title_arabic = models.CharField(max_length=30)
     image = models.ImageField(
         verbose_name='item_image', upload_to='subCategoryService_images/en/', blank=True)
-    # image_arabic = models.ImageField(verbose_name='item_image_arabic',upload_to='subCategoryService_images/ar/',blank=True)
 
     def __str__(self):
         return self.title
-
-
-
-
-# class order(models.Model):
-#     MALE = 'M'
-#     FEMALE = 'F'
-#     COMPANY = 'C'
-#     GENDER_CHOICES = ((MALE, 'Male'), (FEMALE, 'Female'), (COMPANY, 'Company'))
-#     COMPLETED = 'CM'
-#     UNCERTAIN = 'UN'
-#     SUSPENDED = 'SUS'
-#     INPROGRESS = 'IP'
-#     ONLINE = 'O'
-#     INPLACE = 'INP'
-#     SERVICE_PAMENT_METHOD_CHOICES = (
-#         (ONLINE, 'Online'), (INPLACE, 'inPlace'))
-#     SERVICE_STATUS_CHOICES = (
-#         (COMPLETED, 'Completed'), (UNCERTAIN, 'Uncertain'), (SUSPENDED, 'Suspended'), (INPROGRESS, 'InProgress'))
-#     service = models.TextField(max_length=1200)
-#     dateTime = models.DateTimeField(auto_now_add=True)
-#     gender = models.CharField(
-#         max_length=2, choices=GENDER_CHOICES, default=MALE)
-#     orderNumber = models.CharField(max_length=12, unique=True)
-#     location_coordinates_or_address = models.TextField(max_length=1000)
-#     client = models.ForeignKey(user, on_delete=models.CASCADE)
-#     serviceProvider = models.ForeignKey(
-#         'provider.provider', on_delete=models.CASCADE, blank=True, null=True)
-#     service_status = models.CharField(
-#         max_length=3, choices=SERVICE_STATUS_CHOICES, default=UNCERTAIN)
-#     cost = models.DecimalField(
-#         max_digits=10, blank=True, null=True, decimal_places=2)
-#     paymentMethod = models.CharField(
-#         max_length=3, choices=SERVICE_PAMENT_METHOD_CHOICES, default=ONLINE)
-
-#     def __str__(self):
-#         return self.service
-
-
-
-class address(models.Model):
-    address = models.TextField(max_length=10000)
-    owner = models.ForeignKey(user, on_delete=models.CASCADE)
 
 
 class serviceDate(models.Model):
@@ -150,4 +91,32 @@ class availableDateTimeService(models.Model):
     date = models.ForeignKey(serviceDate, on_delete=models.CASCADE)
 
     def __str__(self):
-        return '{},{}'.format(self.date,self.time)
+        return '{},{}'.format(self.date, self.time)
+
+
+class order(models.Model):
+
+    COMPLETED = 'CM'
+    SUSPENDED = 'SUS'
+    INPROGRESS = 'IP'
+    SERVICE_STATUS_CHOICES = (
+        (COMPLETED, 'Completed'), (SUSPENDED, 'Suspended'), (INPROGRESS, 'InProgress'))
+    services = models.ManyToManyField(subServiceCategory)
+    dateTime = models.CharField(max_length=40)
+    orderNumber = models.CharField(max_length=12, unique=True)
+    location_coordinates_or_address = models.TextField(max_length=1000)
+    client = models.ForeignKey(user, on_delete=models.CASCADE)
+    serviceProvider = models.ForeignKey(
+        'provider.provider', on_delete=models.CASCADE)
+    service_status = models.CharField(
+        max_length=3, choices=SERVICE_STATUS_CHOICES, default=INPROGRESS)
+    total_cost = models.DecimalField(
+        max_digits=10, decimal_places=3)
+
+    def __str__(self):
+        return '{}'.format(self.service)
+
+
+class address(models.Model):
+    address = models.TextField(max_length=1000)
+    owner = models.ForeignKey(user, on_delete=models.CASCADE)
