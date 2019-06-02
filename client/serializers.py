@@ -1,12 +1,15 @@
 from rest_framework import serializers
-from client.utils import OrderNumber
 from client.models import (bannerSlider,
                            user,
                            serviceCategory,
                            subServiceCategory,
                            availableDateTimeService,
                            serviceDate,
-                           serviceTime)
+                           serviceTime,
+                           order)
+
+from client import Utils
+import decimal
 
 from provider.models import provider, availableDates
 
@@ -29,7 +32,6 @@ class serviceCategoriesSerializer(serializers.ModelSerializer):
     service = subServiceCategoriesSerializer(many=True)
 
     class Meta:
-
         model = serviceCategory
         fields = ('id',
                   'title',
@@ -39,47 +41,49 @@ class serviceCategoriesSerializer(serializers.ModelSerializer):
                   'service')
 
 
+class submitOrderSerializer(serializers.ModelSerializer):
+    services = serializers.SerializerMethodField()
+    status = serializers.SerializerMethodField()
 
-# class submitOrderSerializer(serializers.ModelSerializer):
-#     #orderTags = serializers.ListField(child=orderTagsSerializer())
-#     #orderTags = serializers.SerializerMethodField('get_tags')
-#     service = serializers.SerializerMethodField('get_services')
+    class Meta:
+        # TODO: remove client from here and get client by token
+        model = order
+        fields = ('id', 'services', 'dateTime',
+                  'orderNumber',
+                  'location',
+                  'client',
+                  'provider',
+                  'status',
+                  'total_cost')
+        read_only_fields = ('id', 'orderNumber', 'client', 'status')
+        #extra_kwargs = {'orderTags': {'write_only': True}}
 
-#     class Meta:
-#         # TODO: remove client from here and get client by token
-#         model = order
-#         fields = ('id',
-#                   'service',
-#                   'client',
-#                   'orderNumber',
-#                   'gender',
-#                   'dateTime',
-#                   'location_coordinates_or_address',)
-#         read_only_fields = ('id', 'orderNumber', 'client', 'dateTime',)
-#         #extra_kwargs = {'orderTags': {'write_only': True}}
+    def create(self, validated_data):
+        request = self.context['request']
+        this_client = user.objects.filter(
+            token__token=request.META.get('HTTP_AUTHORIZATION')).get()
 
-#     def create(self, validated_data):
-#         request = self.context['request']
-#         this_client = user.objects.filter(
-#             token__token=request.META.get('HTTP_AUTH')).get()
-#         orders = order(service='{}'.format(self.get_services(order=None)), orderNumber='{}'.format(OrderNumber.generate()),
-#                        client=this_client, location_coordinates_or_address=validated_data.get('location_coordinates_or_address'))
-#         orders.save()
-#         services = request.data.get('service')
-#         for service in services:
-#             ordered_service.objects.create(
-#                 service=serviceList.objects.filter(id=service).get(), _order=orders)
+        # this_provider = user.objects.filter(
+            # id=validated_data.get('provider')).get()
+            
+        this_provider = validated_data.get('provider')
 
-#         return orders
+        orders = order(services=self.get_services(None), provider=this_provider, orderNumber='{}'.format(Utils.appUtils.generateOrderNumber()),
+                       client=this_client,
+                       location=validated_data.get('location'), status='{}'.format('IP'),
+                       total_cost=validated_data.get('total_cost'),
+                       dateTime=validated_data.get('dateTime'))
+        orders.save()
 
-#     def get_gender(self, order):
-#         if not order.gender:
-#             return 'M'
+        return orders
 
-#     def get_services(self, order):
-#         services = self.context['request'].data.get('service')
-#         names = ''
-#         for service in services:
-#             this_service = str(serviceList.objects.filter(id=service).get())
-#             names = names+' , ' + this_service
-#         return names
+    def get_status(self, order):
+        return 'IP'
+
+    def get_services(self, order):
+        request = self.context['request']
+        services = Utils.appUtils.resolveArrayToList(request.POST.get('services'))
+        f = ''
+        for service in services:
+            f = f + str(subServiceCategory.objects.filter(id=service).get())+','
+        return f

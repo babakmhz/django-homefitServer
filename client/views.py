@@ -5,10 +5,11 @@ from client.clientAuthentication import basicAuth
 from client.models import (bannerSlider,
                            serviceCategory,
                            token,
-                           availableDateTimeService,)
+                           availableDateTimeService,
+                           order,)
 from client.serializers import (bannerSliderSerializer,
                                 serviceCategoriesSerializer,
-
+                                submitOrderSerializer,
                                 )
 from provider.serializers import getProvidersSerlizer, availableProvidersDate
 
@@ -86,3 +87,11 @@ class getProviders(generics.ListAPIView):
             return querySet
         except:
             raise exceptions.APIException('bad request')
+
+
+class submitOrder(generics.CreateAPIView):
+    serializer_class = submitOrderSerializer
+    authentication_classes = (basicAuth,)
+
+    def get_queryset(self):
+        return order.objects.all()

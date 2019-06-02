@@ -19,6 +19,13 @@ admin.site.register(user)
 admin.site.register(serviceDate)
 admin.site.register(serviceTime)
 admin.site.register(availableDateTimeService)
-admin.site.register(order)
+
+@admin.register(order)
+class providingDates(admin.ModelAdmin):
+    list_display = ('id','services','dateTime','provider','client')
+    fields = ('services', 'dateTime', 'orderNumber', 'location', 'client', 'provider',
+    'status','total_cost')
+    # filter_horizontal = ('dates',)
+
 # TODO: remove orderd_service from admin mode
 # TODO:  make all models read-only

@@ -101,20 +101,21 @@ class order(models.Model):
     INPROGRESS = 'IP'
     SERVICE_STATUS_CHOICES = (
         (COMPLETED, 'Completed'), (SUSPENDED, 'Suspended'), (INPROGRESS, 'InProgress'))
-    services = models.ManyToManyField(subServiceCategory)
+    services = models.TextField(max_length=10000,default='')
     dateTime = models.CharField(max_length=40)
     orderNumber = models.CharField(max_length=12, unique=True)
-    location_coordinates_or_address = models.TextField(max_length=1000)
+    location = models.TextField(max_length=1000)
     client = models.ForeignKey(user, on_delete=models.CASCADE)
-    serviceProvider = models.ForeignKey(
+    provider = models.ForeignKey(
         'provider.provider', on_delete=models.CASCADE)
-    service_status = models.CharField(
+    status = models.CharField(
         max_length=3, choices=SERVICE_STATUS_CHOICES, default=INPROGRESS)
-    total_cost = models.DecimalField(
-        max_digits=10, decimal_places=3)
+    total_cost = models.CharField(max_length=30)
 
-    def __str__(self):
-        return '{}'.format(self.service)
+    # qrCode = models.ImageField(upload_to='orders/qrcodes')
+
+    # def __str__(self):
+        # return '{}'.format(self.services)
 
 
 class address(models.Model):
