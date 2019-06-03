@@ -25,11 +25,13 @@ urlpatterns = [
     url(r'^availableServiceDate/$', views.getAvailableServiceDates.as_view()),
     url(r'^getProviders/$', views.getProviders.as_view()),
     url(r'^submitOrder/$', views.submitOrder.as_view()),
+    url(r'^completeOrder/(?P<orderNumber>[0-9A-Za-z-]+)/$', views.compeleteOrder.as_view()),
+
     # TODO: encrypt media directory
     # TODO: change update profile process ----> get token in POST body or HEADER
     # url(r'^uploadClientProfilePhoto/(?P<token__token>[0-9A-Za-z]+)/$',
     #     views.uploadClientProfilePhoto.as_view()),
     # url(r'^uploadClientIdCardPhoto/(?P<token__token>[0-9A-Za-z]+)/$',
     #     views.uploadClientIdCardPhoto.as_view()),
-    #url('^profile/(?P<token>.+)/$', views.getClientProfile.as_view()),
+    # url('^profile/(?P<token>.+)/$', views.getClientProfile.as_view()),
 ]

@@ -54,8 +54,10 @@ class submitOrderSerializer(serializers.ModelSerializer):
                   'client',
                   'provider',
                   'status',
+                  'qrCode',
+                  'description',
                   'total_cost')
-        read_only_fields = ('id', 'orderNumber', 'client', 'status')
+        read_only_fields = ('id', 'qrCode', 'orderNumber', 'client', 'status')
         #extra_kwargs = {'orderTags': {'write_only': True}}
 
     def create(self, validated_data):
@@ -63,16 +65,17 @@ class submitOrderSerializer(serializers.ModelSerializer):
         this_client = user.objects.filter(
             token__token=request.META.get('HTTP_AUTHORIZATION')).get()
 
-        # this_provider = user.objects.filter(
-            # id=validated_data.get('provider')).get()
-            
+        path = 'orders/qrcodes/'
+        order_number = '{}'.format(Utils.appUtils.generateOrderNumber())
+        data = order_number
         this_provider = validated_data.get('provider')
-
-        orders = order(services=self.get_services(None), provider=this_provider, orderNumber='{}'.format(Utils.appUtils.generateOrderNumber()),
+        orders = order(services=self.get_services(None), provider=this_provider, orderNumber=order_number,
                        client=this_client,
                        location=validated_data.get('location'), status='{}'.format('IP'),
                        total_cost=validated_data.get('total_cost'),
-                       dateTime=validated_data.get('dateTime'))
+                       dateTime=validated_data.get('dateTime'),
+                       description=validated_data.get('description'),
+                       qrCode=Utils.appUtils.generateOrderQrCode(data, path, order_number))
         orders.save()
 
         return orders
@@ -82,8 +85,21 @@ class submitOrderSerializer(serializers.ModelSerializer):
 
     def get_services(self, order):
         request = self.context['request']
-        services = Utils.appUtils.resolveArrayToList(request.POST.get('services'))
+        services = Utils.appUtils.resolveArrayToList(
+            request.POST.get('services'))
         f = ''
         for service in services:
             f = f + str(subServiceCategory.objects.filter(id=service).get())+','
         return f
+
+
+class completeOrderSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = order
+        fields = ('status',)
+
+    def update(self, instance, validated_data):
+        instance.status = 'CM'
+        instance.save()
+        return instance

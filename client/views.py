@@ -10,6 +10,7 @@ from client.models import (bannerSlider,
 from client.serializers import (bannerSliderSerializer,
                                 serviceCategoriesSerializer,
                                 submitOrderSerializer,
+                                completeOrderSerializer,
                                 )
 from provider.serializers import getProvidersSerlizer, availableProvidersDate
 
@@ -95,3 +96,10 @@ class submitOrder(generics.CreateAPIView):
 
     def get_queryset(self):
         return order.objects.all()
+
+
+class compeleteOrder(generics.RetrieveUpdateAPIView):
+    serializer_class = completeOrderSerializer
+    lookup_field = 'orderNumber'
+    queryset = order.objects.all()
+    authentication_classes = (basicAuth,)

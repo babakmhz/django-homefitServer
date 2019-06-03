@@ -22,8 +22,8 @@ admin.site.register(availableDateTimeService)
 
 @admin.register(order)
 class providingDates(admin.ModelAdmin):
-    list_display = ('id','services','dateTime','provider','client')
-    fields = ('services', 'dateTime', 'orderNumber', 'location', 'client', 'provider',
+    list_display = ('id','services','dateTime','provider','client','status',)
+    fields = ('services', 'dateTime', 'orderNumber','qrCode', 'location', 'client', 'provider',
     'status','total_cost')
     # filter_horizontal = ('dates',)
 

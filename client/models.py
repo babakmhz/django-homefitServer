@@ -103,7 +103,7 @@ class order(models.Model):
         (COMPLETED, 'Completed'), (SUSPENDED, 'Suspended'), (INPROGRESS, 'InProgress'))
     services = models.TextField(max_length=10000,default='')
     dateTime = models.CharField(max_length=40)
-    orderNumber = models.CharField(max_length=12, unique=True)
+    orderNumber = models.CharField(max_length=20, unique=True)
     location = models.TextField(max_length=1000)
     client = models.ForeignKey(user, on_delete=models.CASCADE)
     provider = models.ForeignKey(
@@ -111,8 +111,8 @@ class order(models.Model):
     status = models.CharField(
         max_length=3, choices=SERVICE_STATUS_CHOICES, default=INPROGRESS)
     total_cost = models.CharField(max_length=30)
-
-    # qrCode = models.ImageField(upload_to='orders/qrcodes')
+    description = models.TextField(max_length=270)
+    qrCode = models.ImageField(upload_to='orders/qrcodes/',default='')
 
     # def __str__(self):
         # return '{}'.format(self.services)
