@@ -3,6 +3,7 @@
 notes.txt
 serviceProvider/migrations/
 =======
+.idea/*
 >>>>>>> 04208944c372337bbfb5b6e68793956e7db37de9
 # Byte-compiled / optimized / DLL files
 __pycache__/

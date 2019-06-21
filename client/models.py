@@ -89,7 +89,6 @@ class serviceTime(models.Model):
 class availableDateTimeService(models.Model):
     time = models.ForeignKey(serviceTime, on_delete=models.CASCADE)
     date = models.ForeignKey(serviceDate, on_delete=models.CASCADE)
-
     def __str__(self):
         return '{},{}'.format(self.date, self.time)
 

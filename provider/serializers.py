@@ -39,13 +39,13 @@ class getProvidersSerlizer(serializers.ModelSerializer):
 class dateSerializer(serializers.ModelSerializer):
     class Meta:
         model = serviceDate
-        fields = '__all__'
+        fields = ('_date',)
 
 
 class timeSerializer(serializers.ModelSerializer):
     class Meta:
         model = serviceTime
-        fields = '__all__'
+        fields = ('_time',)
 
 
 class dateTimeSerializer(serializers.ModelSerializer):
@@ -54,7 +54,7 @@ class dateTimeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = availableDateTimeService
-        fields = '__all__'
+        fields = ('date','time')
 
 
 class availableProvidersDate(serializers.ModelSerializer):
