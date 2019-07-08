@@ -24,12 +24,11 @@ class getProvidersSerlizer(serializers.ModelSerializer):
         request = self.context['request']
         this_services = Utils.appUtils.resolveArrayToList(
             request.GET['services'])
-        #TODO: remove 500 error from this section
+        # TODO: remove 500 error from this section
         total_cost = 0
         cost = 0
-        # print(request.GET)
         for service in this_services:
-            
+
             title = client_subC.objects.filter(
                 pk=service).values_list('title', flat=True).get()
             cost = services.objects.filter(
@@ -42,13 +41,13 @@ class getProvidersSerlizer(serializers.ModelSerializer):
 class dateSerializer(serializers.ModelSerializer):
     class Meta:
         model = serviceDate
-        fields = ('id','_date',)
+        fields = ('id', '_date',)
 
 
 class timeSerializer(serializers.ModelSerializer):
     class Meta:
         model = serviceTime
-        fields = ('id','_time',)
+        fields = ('id', '_time',)
 
 
 class dateTimeSerializer(serializers.ModelSerializer):

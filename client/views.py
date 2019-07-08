@@ -73,7 +73,7 @@ class getAvailableServiceDates(generics.ListAPIView):
         try:
             this_provider = self.request.GET['id']
             return availableDates.objects.filter(provider='{}'.format(this_provider))
-        except :
+        except:
             raise exceptions.APIException('bad request')
 
 
@@ -87,10 +87,12 @@ class getProviders(generics.ListAPIView):
             this_category = self.request.GET['category']
             querySet = None
             services = Utils.appUtils.resolveArrayToList(this_services)
-            print('services in views:',services)
+            print('services in views:', services)
+            services.sort(reverse=True)
             for j in services:
                 querySet = provider.objects.filter(
                     providing_category__id=this_category, providing_services__id=j)
+            print('queryset is : ',querySet)
             return querySet
         except:
             raise exceptions.APIException('bad request')
