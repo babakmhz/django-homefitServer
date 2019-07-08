@@ -14,7 +14,7 @@ from django.contrib import admin
 
 admin.site.register(bannerSlider)
 admin.site.register(serviceCategory)
-admin.site.register(subServiceCategory)
+# admin.site.register(subServiceCategory)
 admin.site.register(user)
 admin.site.register(serviceDate)
 admin.site.register(serviceTime)
@@ -26,6 +26,15 @@ class providingDates(admin.ModelAdmin):
     fields = ('services', 'dateTime', 'orderNumber','qrCode', 'location', 'client', 'provider',
     'status','total_cost')
     # filter_horizontal = ('dates',)
+
+
+@admin.register(subServiceCategory)
+class subServiceCategory(admin.ModelAdmin):
+    list_display = ('id','category','title','title_arabic',)
+    # fields = ('services', 'dateTime', 'orderNumber','qrCode', 'location', 'client', 'provider',
+    # 'status','total_cost')
+    # filter_horizontal = ('dates',)
+
 
 # TODO: remove orderd_service from admin mode
 # TODO:  make all models read-only

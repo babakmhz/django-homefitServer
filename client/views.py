@@ -21,6 +21,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics
 from rest_framework.response import Response
 from client import Utils
+from client.models import user
 
 # Create your views here.
 
@@ -69,7 +70,11 @@ class getAvailableServiceDates(generics.ListAPIView):
     serializer_class = availableProvidersDate
 
     def get_queryset(self):
-        return availableDates.objects.all()
+        try:
+            this_provider = self.request.GET['id']
+            return availableDates.objects.filter(provider='{}'.format(this_provider))
+        except :
+            raise exceptions.APIException('bad request')
 
 
 class getProviders(generics.ListAPIView):
@@ -82,6 +87,7 @@ class getProviders(generics.ListAPIView):
             this_category = self.request.GET['category']
             querySet = None
             services = Utils.appUtils.resolveArrayToList(this_services)
+            print('services in views:',services)
             for j in services:
                 querySet = provider.objects.filter(
                     providing_category__id=this_category, providing_services__id=j)

@@ -28,6 +28,7 @@ class user(models.Model):
     id_number = models.CharField(max_length=11, blank=True)
 
     def __str__(self):
+        
         return str(self.phone_number)
 
 
@@ -89,6 +90,7 @@ class serviceTime(models.Model):
 class availableDateTimeService(models.Model):
     time = models.ForeignKey(serviceTime, on_delete=models.CASCADE)
     date = models.ForeignKey(serviceDate, on_delete=models.CASCADE)
+
     def __str__(self):
         return '{},{}'.format(self.date, self.time)
 
@@ -100,7 +102,7 @@ class order(models.Model):
     INPROGRESS = 'IP'
     SERVICE_STATUS_CHOICES = (
         (COMPLETED, 'Completed'), (SUSPENDED, 'Suspended'), (INPROGRESS, 'InProgress'))
-    services = models.TextField(max_length=10000,default='')
+    services = models.TextField(max_length=10000, default='')
     dateTime = models.CharField(max_length=40)
     orderNumber = models.CharField(max_length=20, unique=True)
     location = models.TextField(max_length=1000)
@@ -110,11 +112,11 @@ class order(models.Model):
     status = models.CharField(
         max_length=3, choices=SERVICE_STATUS_CHOICES, default=INPROGRESS)
     total_cost = models.CharField(max_length=30)
-    description = models.TextField(max_length=270)
-    qrCode = models.ImageField(upload_to='orders/qrcodes/',default='')
+    description = models.TextField(max_length=270,blank=True)
+    qrCode = models.ImageField(upload_to='orders/qrcodes/', default='')
 
     # def __str__(self):
-        # return '{}'.format(self.services)
+    # return '{}'.format(self.services)
 
 
 class address(models.Model):
